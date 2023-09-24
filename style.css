@@ -1,0 +1,179 @@
+body.dark {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.section-title {
+    color: #fff;
+}
+
+.advantage-card {
+    background-color: #454d55;
+    color: #fff;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #454d55;
+    color: #fff;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.rounded-container {
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.btn-add-bot {
+    font-weight: bold;
+}
+
+.about-text {
+    margin-top: 30px;
+}
+
+.faq-question {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.faq-answer {
+    display: none;
+    margin-top: 10px;
+}
+
+.advantages-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.advantage-card {
+    display: inline-block;
+    width: 300px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.advantage-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.animated-text {
+    font-size: 36px;
+    color: #f1f1f1;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.15em solid #000000;
+    animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+    margin-bottom: 40px;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: #888;
+    }
+}
+
+.category-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.commands {
+    background: linear-gradient(to right, #161515, #464646);
+    color: #fff;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.commands h2 {
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.category-list {
+    margin-bottom: 30px;
+}
+
+.category-list .list-group-item {
+    cursor: pointer;
+    background: rgb(34, 34, 34);
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.category-list .list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.category-list .list-group-item.active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.category-title {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.command-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.command {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.command:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.light-icon {
+    fill: #ffffff;
+}
