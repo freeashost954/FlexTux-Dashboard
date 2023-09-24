@@ -5,6 +5,9 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Discord = require('discord.js');
+const escapeHtml = require('escape-html');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -21,6 +24,15 @@ const client = new Discord.Client({
 client.login(botToken);
 
 const app = express();
+app.use(helmet());
+app.disable('x-powered-by');
+
+// Defina um limite de taxa para a rota '/auth/discord'
+const authLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minuto
+    max: 5, // Permitir até 5 solicitações por minuto
+    message: 'Muitas tentativas de login. Por favor, tente novamente mais tarde.',
+  });
 
 // Configuração do MongoDB
 mongoose.connect(process.env.MONGODB, {
@@ -72,10 +84,10 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Rota de login
-app.get('/auth/discord', passport.authenticate('discord'));
+app.get('/auth/discord', authLimiter, passport.authenticate('discord'));
 
 // Rota de callback após o login
-app.get('/auth/discord/callback', passport.authenticate('discord', {
+app.get('/auth/discord/callback', authLimiter, passport.authenticate('discord', {
     failureRedirect: '/login-failed',
 }), async (req, res) => {
     // Salvar ou atualizar o usuário no MongoDB
@@ -141,7 +153,7 @@ app.get('/dashboard', async (req, res) => {
                     <form action="/choose-server" method="post">
                         <div class="form-group">
                             <select class="form-control" name="server">
-                                ${botAdminGuilds.map(server => `<option value="${server.id}">${server.name}</option>`).join('')}
+                                ${botAdminGuilds.map(server => `<option value="${escapeHtml(server.id)}">${escapeHtml(server.name)}</option>`).join('')}
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Escolher</button>
@@ -186,14 +198,13 @@ app.post('/choose-server', (req, res) => {
     }
 });
 
-// Rota para alterar o prefixo
 app.get('/change-prefix', async (req, res) => {
     // Apenas usuários autenticados têm acesso a esta rota
     if (req.isAuthenticated()) {
         const user = req.user;
         const serverId = req.query.server;
         const successMessage = req.query.success === 'true' ? 'Prefixo alterado com sucesso!' : '';
-        if (!serverId){
+        if (!serverId) {
             res.redirect('/dashboard');
         }
 
@@ -225,14 +236,14 @@ app.get('/change-prefix', async (req, res) => {
                 <!-- Conteúdo da página -->
                 <div class="container mt-4">
                     <h1 class="section-title">Alterar Prefixo</h1>
-                    <p>Username do Usuário: ${user.username}</p>
-                    <p>Servidor Selecionado: ${serverData.server_id}</p>
+                    <p>Username do Usuário: ${escapeHtml(user.username)}</p>
+                    <p>Servidor Selecionado: ${escapeHtml(serverData.server_id)}</p>
                     <p>${successMessage}</p>
                     <form action="/save-prefix" method="post">
-                        <input type="hidden" name="serverId" value="${serverId}">
+                        <input type="hidden" name="serverId" value="${escapeHtml(serverId)}">
                         <div class="form-group">
                             <label for="prefix">Novo Prefixo:</label>
-                            <input type="text" id="prefix" name="prefix" value="${serverData.custom_prefix}" class="form-control" required>
+                            <input type="text" id="prefix" name="prefix" value="${escapeHtml(serverData.custom_prefix)}" class="form-control" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Alterar Prefixo</button>
                     </form>
@@ -246,6 +257,7 @@ app.get('/change-prefix', async (req, res) => {
         res.redirect('/auth/discord');
     }
 });
+
 
 // Rota para salvar a alteração do prefixo
 app.post('/save-prefix', async (req, res) => {
