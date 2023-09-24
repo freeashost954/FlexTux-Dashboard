@@ -1,4 +1,4 @@
-# FlexTux-Dashboard
+# FlexTux-Dashboard - Em desenvolvimento
 
 Este repositório contém o código-fonte de uma dashboard simples para um bot do discord, com integração ao mongodb, desenvolvida usando JavaScript, HTML e CSS (Bootstrap).
 
